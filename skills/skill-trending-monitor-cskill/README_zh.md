@@ -1,7 +1,7 @@
 # skill-trending-monitor-cskill
 ![CI](https://github.com/YOUR_USERNAME/skill-trending-monitor-cskill/actions/workflows/ci.yml/badge.svg)
 
-> 自动监控和分析 skill-manager 生态系统中热门 Claude Skills 的工具
+> 自动监控和分析 Claude Skills 热门趋势的工具，采用双数据源架构：claude-plugins.dev API（主要）+ skill-manager 本地数据库（离线备用）
 
 **版本：** 1.0.0
 **创建时间：** 2026-02-03
@@ -11,7 +11,7 @@
 
 ## 📋 概述
 
-`skill-trending-monitor-cskill` 是一个综合性 Skill，可自动监控、分析和报告 skill-manager 数据库（31,767+ skills）中的热门 Claude Skills。它可以帮助您：
+`skill-trending-monitor-cskill` 是一个综合性 Skill，可自动监控、分析和报告热门 Claude Skills。采用**双数据源架构**：Tier 0 优先使用 claude-plugins.dev API（53,759+ skills，实时），Tier 1 回退到 skill-manager 本地数据库（41,502 skills，离线可用）。它可以帮助您：
 
 - 🆕 **发现新 Skills** - 发现尚未在本地安装的新 skills
 - 📈 **追踪增长率** - 使用 GitHub star 历史记录（周环比）
@@ -36,7 +36,7 @@
 
 本 Skill 使用 **Python** 而非最初请求的 Bash+Node.js 技术栈。原因如下：
 
-**核心需求：** 对 31,767 个 skills 进行 TF-IDF 向量化和余弦相似度计算
+**核心需求：** 对 53,759+ 个 skills（API）/ 41,502 个 skills（本地 DB）进行 TF-IDF 向量化和余弦相似度计算
 
 **理由：**
 - ✅ **生产就绪的实现：** `scikit-learn` 提供优化的 TF-IDF 和稀疏矩阵支持
@@ -59,14 +59,15 @@
 ### 前置条件
 
 1. **Python 3.8+** 及 pip
-2. **skill-manager 数据库** 安装在 `~/.claude/skills/skill-manager/data/all_skills_with_cn.json`
-3. **GitHub 个人访问令牌**（可选但推荐，可获得 5,000/小时的速率限制）
+2. **Tier 0**（主要）：claude-plugins.dev API — 无需本地安装，53,759+ skills 实时访问
+3. **Tier 1**（备用，可选）：skill-manager 数据库 `~/.claude/skills/skill-manager/data/all_skills_with_cn.json` — 离线回退，41,502 skills
+4. **GitHub 个人访问令牌**（可选但推荐，可获得 5,000/小时的速率限制）
 
 ### 安装
 
 ```bash
-# 1. 验证 skill-manager 数据库存在
-ls -lh ~/.claude/skills/skill-manager/data/all_skills_with_cn.json
+# 1. （可选）验证 skill-manager 本地数据库（离线备用）
+# ls -lh ~/.claude/skills/skill-manager/data/all_skills_with_cn.json
 
 # 2. 安装 Python 依赖
 cd skill-trending-monitor-cskill
@@ -77,7 +78,7 @@ export GITHUB_TOKEN="ghp_xxxxxxxxxxxxxxxxxxxx"
 
 # 4. 验证安装
 python scripts/fetch_skill_manager.py
-# 应输出："✓ Fetched 31,767 skills"
+# 应输出来自 API（53,759+）或本地 DB（41,502）的 skills 数量，取决于可用性
 
 # 5. 运行首次分析
 python scripts/analyze_comprehensive.py
@@ -90,12 +91,13 @@ python scripts/analyze_comprehensive.py
 
 ### 基本配置
 
-编辑 `assets/config.json` 自定义行为：
+编辑 `assets/config.json` 自定义行为。
+安全建议：受版本控制文件中保持 `github.token` 为空，使用 `GITHUB_TOKEN` 环境变量（或本地 git-ignored 覆盖文件）：
 
 ```json
 {
   "github": {
-    "token": "YOUR_GITHUB_TOKEN_HERE",
+    "token": "",
     "rate_limit": {
       "max_requests_per_hour": 5000
     }
@@ -674,7 +676,7 @@ launchctl load ~/Library/LaunchAgents/com.skill-trending-monitor.plist
 **解决方案：**
 1. 生成 GitHub 令牌：https://github.com/settings/tokens（public_repo 范围）
 2. 设置环境变量：`export GITHUB_TOKEN="ghp_xxxxx"`
-3. 或更新 `assets/config.json`：`"token": "ghp_xxxxx"`
+3. 可选本地覆盖：复制 `assets/config.local.json.example` 为 `assets/config.local.json`（已被 gitignore）
 
 ---
 
@@ -756,7 +758,8 @@ MIT 许可证 - 详见 LICENSE 文件
 
 ## 🙏 致谢
 
-- **skill-manager**（31,767+ skills 数据库）
+- **claude-plugins.dev API**（53,759+ skills，主要数据源）
+- **skill-manager**（41,502 skills 本地数据库，离线备用）
 - **GitHub API**（star 历史数据）
 - **scikit-learn**（TF-IDF 和余弦相似度）
 - **pandas**（数据处理）

@@ -1,7 +1,7 @@
 # skill-trending-monitor-cskill
 ![CI](https://github.com/YOUR_USERNAME/skill-trending-monitor-cskill/actions/workflows/ci.yml/badge.svg)
 
-> Automated monitoring and analysis of trending Claude Skills from the skill-manager ecosystem
+> Automated monitoring and analysis of trending Claude Skills — dual-source architecture (claude-plugins.dev API + skill-manager local DB)
 
 **Version:** 1.0.0
 **Created:** 2026-02-03
@@ -11,7 +11,7 @@
 
 ## 📋 Overview
 
-`skill-trending-monitor-cskill` is a comprehensive skill that automatically monitors, analyzes, and reports on trending Claude Skills from the skill-manager database (31,767+ skills). It helps you:
+`skill-trending-monitor-cskill` is a comprehensive skill that automatically monitors, analyzes, and reports on trending Claude Skills using a **dual-source architecture**: `claude-plugins.dev` API (53,759+ skills, real-time) with `skill-manager` local DB (41,502 skills) as offline fallback. It helps you:
 
 - 🆕 **Discover new skills** not yet installed locally
 - 📈 **Track growth rates** using GitHub star history (week-over-week)
@@ -36,7 +36,7 @@
 
 This skill uses **Python** instead of the originally requested Bash+Node.js stack. Here's why:
 
-**Core Requirement:** TF-IDF vectorization and cosine similarity calculations for 31,767 skills
+**Core Requirement:** TF-IDF vectorization and cosine similarity calculations for 53,759+ skills (API) / 41,502 skills (local DB)
 
 **Justification:**
 - ✅ **Production-ready implementation:** `scikit-learn` provides optimized TF-IDF with sparse matrix support
@@ -59,13 +59,15 @@ This skill uses **Python** instead of the originally requested Bash+Node.js stac
 ### Prerequisites
 
 1. **Python 3.8+** with pip
-2. **skill-manager database** installed at `~/.claude/skills/skill-manager/data/all_skills_with_cn.json`
+2. **Data sources** (dual-source, auto-fallback):
+   - **Tier 0 (primary):** `claude-plugins.dev` API — no local install needed, internet access required
+   - **Tier 1 (fallback):** `skill-manager` local DB at `~/.claude/skills/skill-manager/data/all_skills_with_cn.json` — optional, used when API is unavailable
 3. **GitHub Personal Access Token** (optional but recommended for 5,000/hour rate limit)
 
 ### Installation
 
 ```bash
-# 1. Verify skill-manager database exists
+# 1. (Optional) Verify skill-manager local DB exists for offline fallback
 ls -lh ~/.claude/skills/skill-manager/data/all_skills_with_cn.json
 
 # 2. Install Python dependencies
@@ -77,7 +79,7 @@ export GITHUB_TOKEN="ghp_xxxxxxxxxxxxxxxxxxxx"
 
 # 4. Verify installation
 python scripts/fetch_skill_manager.py
-# Should output: "✓ Fetched 31,767 skills"
+# Should output skill count from API (53,759+) or local DB (41,502) depending on availability
 
 # 5. Run first analysis
 python scripts/analyze_comprehensive.py
@@ -90,12 +92,13 @@ python scripts/analyze_comprehensive.py
 
 ### Basic Configuration
 
-Edit `assets/config.json` to customize behavior:
+Edit `assets/config.json` to customize behavior.
+Security note: keep `github.token` empty in tracked files and use `GITHUB_TOKEN` env var (or local git-ignored override file):
 
 ```json
 {
   "github": {
-    "token": "YOUR_GITHUB_TOKEN_HERE",
+    "token": "",
     "rate_limit": {
       "max_requests_per_hour": 5000
     }
@@ -674,7 +677,7 @@ Add to crontab:
 **Solution:**
 1. Generate GitHub token: https://github.com/settings/tokens (public_repo scope)
 2. Set environment variable: `export GITHUB_TOKEN="ghp_xxxxx"`
-3. Or update `assets/config.json`: `"token": "ghp_xxxxx"`
+3. Optional local override: copy `assets/config.local.json.example` to `assets/config.local.json` (git-ignored)
 
 ---
 
@@ -808,7 +811,8 @@ MIT License - see LICENSE file for details
 
 ## 🙏 Acknowledgments
 
-- **skill-manager** (31,767+ skills database)
+- **claude-plugins.dev API** (53,759+ skills, primary source)
+- **skill-manager** (41,502 skills local DB, offline fallback)
 - **GitHub API** (star history data)
 - **scikit-learn** (TF-IDF and cosine similarity)
 - **pandas** (data processing)
