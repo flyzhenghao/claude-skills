@@ -1,0 +1,178 @@
+{
+  "_comment": "Configuration for skill-trending-monitor-cskill",
+  "_version": "1.0.0",
+
+  "github": {
+    "_comment": "GitHub API configuration for star history fetching",
+    "token": "REDACTED_GITHUB_TOKEN",
+    "_token_help": "Generate at: https://github.com/settings/tokens (public_repo scope required)",
+    "rate_limit": {
+      "max_requests_per_hour": 5000,
+      "_comment_rate": "5000 with token, 60 without token",
+      "retry_attempts": 3,
+      "retry_delay_seconds": 60,
+      "respect_rate_limit": true
+    },
+    "api_timeout_seconds": 30,
+    "user_agent": "skill-trending-monitor-cskill/1.0.0"
+  },
+
+  "cache": {
+    "_comment": "Cache settings to avoid redundant API calls",
+    "enabled": true,
+    "cache_dir": ".cache",
+    "ttl": {
+      "_comment_ttl": "Time-to-live in seconds for different cache categories",
+      "github": 86400,
+      "_github_help": "GitHub star history: 24 hours (86400s)",
+      "skills": 604800,
+      "_skills_help": "skill-manager database: 7 days (604800s)",
+      "analysis": 3600,
+      "_analysis_help": "Analysis results: 1 hour (3600s)"
+    },
+    "max_size_mb": 100,
+    "cleanup_on_start": false
+  },
+
+  "thresholds": {
+    "_comment": "Quality and matching thresholds for skill filtering and analysis",
+    "quality": {
+      "min_stars": 50,
+      "_min_stars_help": "Minimum GitHub stars to consider a skill",
+      "max_months_old": 6,
+      "_max_months_help": "Maximum age in months since last update",
+      "require_description": true,
+      "_require_description_help": "Require non-empty description field"
+    },
+    "similarity": {
+      "threshold": 0.75,
+      "_threshold_help": "Minimum cosine similarity (0.0-1.0) for skill matching",
+      "max_features": 500,
+      "_max_features_help": "TF-IDF maximum features for vectorization",
+      "ngram_range": [1, 2],
+      "_ngram_range_help": "N-gram range: [1,2] = unigrams+bigrams, [1,3] = add trigrams",
+      "min_df": 1,
+      "max_df": 0.8,
+      "stop_words": "english",
+      "_stop_words_help": "Options: 'english', null, or custom list"
+    },
+    "replacement": {
+      "confidence_threshold": 0.70,
+      "_confidence_help": "Minimum confidence score (0.0-1.0) for replacement recommendations",
+      "weights": {
+        "_comment_weights": "Multi-factor confidence score weights (must sum to 1.0)",
+        "star_ratio": 0.4,
+        "recency_factor": 0.3,
+        "similarity_score": 0.3
+      }
+    },
+    "security": {
+      "threshold": 70,
+      "_threshold_help": "Minimum security score (0-100) to pass evaluation",
+      "weights": {
+        "_comment_weights": "Security score component weights (must sum to 1.0)",
+        "stars_score": 0.30,
+        "activity_score": 0.25,
+        "license_score": 0.25,
+        "update_score": 0.20
+      }
+    }
+  },
+
+  "output": {
+    "_comment": "Report generation settings",
+    "report_dir": "meta/reports",
+    "format": "markdown",
+    "filename_pattern": "{date}-skill-trending-report.md",
+    "_filename_help": "{date} will be replaced with YYYY-MM-DD",
+    "sections": {
+      "_comment_sections": "Which sections to include in comprehensive report",
+      "new_skills": true,
+      "growth_rates": true,
+      "similar_skills": true,
+      "replacements": true,
+      "security_assessments": true,
+      "statistics": true
+    },
+    "top_n": {
+      "_comment_top_n": "Number of results to include in each report section",
+      "new_skills": 10,
+      "growth_rates": 10,
+      "replacements": 5,
+      "security_assessments": 10
+    }
+  },
+
+  "performance": {
+    "_comment": "Performance optimization settings",
+    "parallel_processing": {
+      "enabled": true,
+      "max_workers": 4,
+      "_max_workers_help": "Number of parallel workers (0 = auto-detect CPU count)"
+    },
+    "batch_size": 1000,
+    "_batch_size_help": "Process skills in batches of this size to manage memory",
+    "memory_limit_mb": 2048,
+    "_memory_limit_help": "Maximum memory usage before triggering batch processing"
+  },
+
+  "analysis": {
+    "_comment": "Analysis behavior configuration",
+    "discover_new_skills": {
+      "enabled": true,
+      "exclude_installed": true,
+      "_exclude_installed_help": "Filter out already installed skills from discovery"
+    },
+    "calculate_growth_rates": {
+      "enabled": true,
+      "time_window_days": 7,
+      "_time_window_help": "Calculate growth over this many days (7 = week-over-week)"
+    },
+    "find_similar_skills": {
+      "enabled": true,
+      "include_installed_only": false,
+      "_include_installed_help": "If true, only find alternatives for installed skills"
+    },
+    "evaluate_replacements": {
+      "enabled": true,
+      "require_better_stars": true,
+      "_require_better_stars_help": "Only recommend replacements with equal or more stars"
+    },
+    "security_evaluation": {
+      "enabled": true,
+      "fail_on_critical": false,
+      "_fail_on_critical_help": "Abort analysis if critical security issues found"
+    }
+  },
+
+  "notifications": {
+    "_comment": "Notification settings (future: email, Slack, etc.)",
+    "enabled": false,
+    "methods": [],
+    "_methods_help": "Options: ['email', 'slack', 'webhook'] - not implemented yet",
+    "on_completion": false,
+    "on_error": false
+  },
+
+  "logging": {
+    "_comment": "Logging configuration",
+    "level": "INFO",
+    "_level_help": "Options: DEBUG, INFO, WARNING, ERROR, CRITICAL",
+    "log_dir": "logs",
+    "log_file": "skill-trending-monitor.log",
+    "console_output": true,
+    "file_output": true,
+    "max_log_size_mb": 10,
+    "backup_count": 5
+  },
+
+  "skill_manager": {
+    "_comment": "skill-manager database configuration",
+    "database_path": "~/.claude/skills/skill-manager/data/all_skills_with_cn.json",
+    "_database_help": "Path to skill-manager local database",
+    "verify_on_start": true,
+    "_verify_help": "Check database exists and is valid before analysis",
+    "min_expected_skills": 30000,
+    "_min_expected_help": "Alert if database has fewer skills than this"
+  }
+}

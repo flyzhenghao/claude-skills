@@ -1,0 +1,329 @@
+{
+  "_comment": "Quality filter presets for skill-trending-monitor-cskill",
+  "_version": "1.0.0",
+  "_usage": "Use these presets to quickly configure filtering behavior. Reference profiles in config.json or command-line arguments.",
+
+  "profiles": {
+    "strict": {
+      "_comment": "High quality only - for production environments where only proven, well-maintained skills are acceptable",
+      "_use_when": "You prioritize stability and quality over discovery. Recommended for enterprise or critical systems.",
+      "_trade_offs": "May miss emerging skills. Smaller result set.",
+
+      "quality": {
+        "min_stars": 100,
+        "_stars_rationale": "100+ stars indicates strong community validation",
+        "max_months_old": 3,
+        "_age_rationale": "3 months ensures very active maintenance",
+        "require_description": true,
+        "min_description_length": 50,
+        "_description_rationale": "50+ chars ensures meaningful documentation"
+      },
+
+      "similarity": {
+        "threshold": 0.80,
+        "_threshold_rationale": "0.80 = very strict matching, reduces false positives",
+        "max_features": 1000,
+        "_features_rationale": "More features = finer-grained matching",
+        "ngram_range": [1, 3],
+        "_ngram_rationale": "Trigrams capture more context"
+      },
+
+      "replacement": {
+        "confidence_threshold": 0.75,
+        "_confidence_rationale": "0.75 = only recommend high-confidence replacements",
+        "require_better_stars": true,
+        "min_star_improvement": 1.5,
+        "_star_improvement_rationale": "Replacement must have 1.5x stars of current skill"
+      },
+
+      "security": {
+        "threshold": 80,
+        "_threshold_rationale": "80/100 = excellent security posture required",
+        "fail_on_critical": true,
+        "_fail_rationale": "Abort if critical security issues found"
+      }
+    },
+
+    "balanced": {
+      "_comment": "Default settings - balanced between quality and discovery",
+      "_use_when": "General use. Good balance of quality filtering and result coverage.",
+      "_trade_offs": "Default configuration from config.json",
+
+      "quality": {
+        "min_stars": 50,
+        "_stars_rationale": "50+ stars indicates reasonable community validation",
+        "max_months_old": 6,
+        "_age_rationale": "6 months balances freshness and stability",
+        "require_description": true,
+        "min_description_length": 20,
+        "_description_rationale": "20+ chars ensures basic documentation"
+      },
+
+      "similarity": {
+        "threshold": 0.75,
+        "_threshold_rationale": "0.75 = strict but not overly restrictive",
+        "max_features": 500,
+        "_features_rationale": "500 features balances precision and performance",
+        "ngram_range": [1, 2],
+        "_ngram_rationale": "Bigrams capture common phrase patterns"
+      },
+
+      "replacement": {
+        "confidence_threshold": 0.70,
+        "_confidence_rationale": "0.70 = moderate confidence threshold",
+        "require_better_stars": true,
+        "min_star_improvement": 1.0,
+        "_star_improvement_rationale": "Replacement must have equal or more stars"
+      },
+
+      "security": {
+        "threshold": 70,
+        "_threshold_rationale": "70/100 = good security posture",
+        "fail_on_critical": false,
+        "_fail_rationale": "Warn on critical issues but don't abort"
+      }
+    },
+
+    "permissive": {
+      "_comment": "More inclusive - for exploration and discovery of emerging skills",
+      "_use_when": "You want to discover new/emerging skills. Willing to manually evaluate results.",
+      "_trade_offs": "More results but requires manual quality assessment. May include lower-quality skills.",
+
+      "quality": {
+        "min_stars": 10,
+        "_stars_rationale": "10+ stars indicates some community interest",
+        "max_months_old": 12,
+        "_age_rationale": "12 months allows for stable but less frequently updated skills",
+        "require_description": true,
+        "min_description_length": 10,
+        "_description_rationale": "10+ chars ensures minimal documentation"
+      },
+
+      "similarity": {
+        "threshold": 0.65,
+        "_threshold_rationale": "0.65 = more permissive matching, captures more alternatives",
+        "max_features": 300,
+        "_features_rationale": "Fewer features for broader matching",
+        "ngram_range": [1, 2],
+        "_ngram_rationale": "Bigrams sufficient for general matching"
+      },
+
+      "replacement": {
+        "confidence_threshold": 0.60,
+        "_confidence_rationale": "0.60 = lower threshold, more replacement suggestions",
+        "require_better_stars": false,
+        "_better_stars_rationale": "Allow replacements with fewer stars if other factors strong",
+        "min_star_improvement": 0.8,
+        "_star_improvement_rationale": "Replacement can have 20% fewer stars if compensated by recency/similarity"
+      },
+
+      "security": {
+        "threshold": 60,
+        "_threshold_rationale": "60/100 = acceptable security posture",
+        "fail_on_critical": false,
+        "_fail_rationale": "Warn on all issues but don't abort"
+      }
+    },
+
+    "experimental": {
+      "_comment": "Minimal filtering - for research and edge case exploration",
+      "_use_when": "Research purposes, exploring skill ecosystem comprehensively, or custom evaluation pipelines.",
+      "_trade_offs": "Very large result sets. Significant manual filtering required. May include abandoned/low-quality skills.",
+      "_warning": "Not recommended for production use without manual review",
+
+      "quality": {
+        "min_stars": 0,
+        "_stars_rationale": "No star requirement - include all skills",
+        "max_months_old": 24,
+        "_age_rationale": "24 months includes even rarely updated skills",
+        "require_description": false,
+        "_description_rationale": "No description required - may include incomplete skills"
+      },
+
+      "similarity": {
+        "threshold": 0.50,
+        "_threshold_rationale": "0.50 = very permissive, captures loose similarities",
+        "max_features": 200,
+        "_features_rationale": "Minimal features for broadest matching",
+        "ngram_range": [1, 1],
+        "_ngram_rationale": "Unigrams only for maximum coverage"
+      },
+
+      "replacement": {
+        "confidence_threshold": 0.50,
+        "_confidence_rationale": "0.50 = minimal confidence threshold",
+        "require_better_stars": false,
+        "_better_stars_rationale": "Stars not required for replacement consideration",
+        "min_star_improvement": 0.5,
+        "_star_improvement_rationale": "Replacement can have significantly fewer stars"
+      },
+
+      "security": {
+        "threshold": 40,
+        "_threshold_rationale": "40/100 = minimal security bar",
+        "fail_on_critical": false,
+        "_fail_rationale": "Report all findings but never abort"
+      }
+    }
+  },
+
+  "use_cases": {
+    "_comment": "Common use case to profile mapping",
+
+    "production_deployment": {
+      "recommended_profile": "strict",
+      "rationale": "Production systems require proven, well-maintained skills with high quality standards"
+    },
+
+    "personal_development": {
+      "recommended_profile": "balanced",
+      "rationale": "Personal projects benefit from balance of quality and discovery"
+    },
+
+    "skill_discovery": {
+      "recommended_profile": "permissive",
+      "rationale": "Finding new skills requires more inclusive filtering to discover emerging tools"
+    },
+
+    "ecosystem_research": {
+      "recommended_profile": "experimental",
+      "rationale": "Research and analysis requires comprehensive coverage of skill landscape"
+    },
+
+    "security_audit": {
+      "recommended_profile": "strict",
+      "rationale": "Security audits require high confidence in skill quality and maintenance"
+    },
+
+    "rapid_prototyping": {
+      "recommended_profile": "permissive",
+      "rationale": "Prototyping benefits from quick discovery of alternative solutions"
+    }
+  },
+
+  "migration_guide": {
+    "_comment": "How to apply these profiles",
+
+    "method_1_config_file": {
+      "description": "Reference profile in config.json",
+      "example": {
+        "thresholds": {
+          "quality": "$ref:filters.json#/profiles/strict/quality",
+          "similarity": "$ref:filters.json#/profiles/strict/similarity"
+        }
+      },
+      "note": "JSON $ref syntax (requires JSON schema processor)"
+    },
+
+    "method_2_manual_copy": {
+      "description": "Copy profile values into config.json",
+      "example": "Replace thresholds section in config.json with values from desired profile",
+      "note": "Simplest method, no tooling required"
+    },
+
+    "method_3_command_line": {
+      "description": "Override config.json via command-line arguments",
+      "example": "python scripts/analyze_comprehensive.py --profile strict",
+      "note": "Requires script modification to support --profile flag"
+    },
+
+    "method_4_environment": {
+      "description": "Use environment variables",
+      "example": "FILTER_PROFILE=strict python scripts/analyze_comprehensive.py",
+      "note": "Requires script modification to read FILTER_PROFILE env var"
+    }
+  },
+
+  "profile_comparison": {
+    "_comment": "Quick reference comparing key parameters across profiles",
+
+    "table": [
+      {
+        "parameter": "min_stars",
+        "strict": 100,
+        "balanced": 50,
+        "permissive": 10,
+        "experimental": 0
+      },
+      {
+        "parameter": "max_months_old",
+        "strict": 3,
+        "balanced": 6,
+        "permissive": 12,
+        "experimental": 24
+      },
+      {
+        "parameter": "similarity_threshold",
+        "strict": 0.80,
+        "balanced": 0.75,
+        "permissive": 0.65,
+        "experimental": 0.50
+      },
+      {
+        "parameter": "confidence_threshold",
+        "strict": 0.75,
+        "balanced": 0.70,
+        "permissive": 0.60,
+        "experimental": 0.50
+      },
+      {
+        "parameter": "security_threshold",
+        "strict": 80,
+        "balanced": 70,
+        "permissive": 60,
+        "experimental": 40
+      }
+    ],
+
+    "expected_result_size": {
+      "strict": "~50-100 skills (top 0.3% of 31,767)",
+      "balanced": "~300-500 skills (top 1.5% of 31,767)",
+      "permissive": "~1,000-2,000 skills (top 6% of 31,767)",
+      "experimental": "~5,000-10,000 skills (top 30% of 31,767)"
+    }
+  },
+
+  "customization": {
+    "_comment": "How to create your own custom profiles",
+
+    "template": {
+      "custom_profile_name": {
+        "_comment": "Description of your custom profile",
+        "_use_when": "When to use this profile",
+        "_trade_offs": "Trade-offs of this profile",
+
+        "quality": {
+          "min_stars": 50,
+          "max_months_old": 6,
+          "require_description": true,
+          "min_description_length": 20
+        },
+
+        "similarity": {
+          "threshold": 0.75,
+          "max_features": 500,
+          "ngram_range": [1, 2]
+        },
+
+        "replacement": {
+          "confidence_threshold": 0.70,
+          "require_better_stars": true,
+          "min_star_improvement": 1.0
+        },
+
+        "security": {
+          "threshold": 70,
+          "fail_on_critical": false
+        }
+      }
+    },
+
+    "tips": [
+      "Start with balanced profile and adjust one parameter at a time",
+      "Lower thresholds increase result count but may reduce quality",
+      "Higher thresholds improve quality but may miss emerging skills",
+      "Test profiles with sample queries before deploying",
+      "Document rationale for custom profiles"
+    ]
+  }
+}

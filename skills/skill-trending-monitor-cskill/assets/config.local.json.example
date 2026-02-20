@@ -1,0 +1,17 @@
+{
+  "_comment": "Copy this to config.local.json and customize. This file is git-ignored.",
+
+  "github": {
+    "token": "YOUR_GITHUB_TOKEN_HERE"
+  },
+
+  "thresholds": {
+    "quality": {
+      "min_stars": 100
+    }
+  },
+
+  "logging": {
+    "level": "DEBUG"
+  }
+}

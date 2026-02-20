@@ -1,0 +1,83 @@
+{
+  "name": "skill-trending-monitor-cskill",
+  "owner": {
+    "name": "Agent Creator",
+    "email": "noreply@example.com"
+  },
+  "metadata": {
+    "description": "Comprehensive skill ecosystem monitoring tool for Claude Code. Automatically tracks trending Claude Skills from skill-manager database (31,767 skills) and calculates week-over-week growth rates using GitHub API star history. Discovers new skills not locally installed with quality filters (stars >= 50, updated within 6 months). Identifies functionally similar alternatives using TF-IDF + cosine similarity algorithms (threshold 0.75). Recommends skill replacements with confidence scoring. Integrates security evaluation to filter risky skills (threshold 70). Generates weekly Markdown reports to meta/reports/ with trending analysis and replacement suggestions.",
+    "version": "1.0.0",
+    "created": "2026-02-03"
+  },
+  "plugins": [
+    {
+      "name": "skill-trending-monitor-plugin",
+      "description": "Comprehensive skill ecosystem monitoring tool for Claude Code. Automatically tracks trending Claude Skills from skill-manager database (31,767 skills) and calculates week-over-week growth rates using GitHub API star history. Discovers new skills not locally installed with quality filters (stars >= 50, updated within 6 months). Identifies functionally similar alternatives using TF-IDF + cosine similarity algorithms (threshold 0.75). Recommends skill replacements with confidence scoring (star ratio, recency factor, text similarity). Integrates security evaluation to filter risky skills (threshold 70). Generates weekly Markdown reports to meta/reports/ with sections: 🆕 New Skills, 🔥 Fastest Growing (5%+ WoW growth), 🔄 Replaceable Skills (confidence >= 0.70), 🛡️ Security Assessments, 📊 Statistics Summary. Perfect for maintaining optimal skill ecosystem with automated monitoring, security-first recommendations, and data-driven replacement suggestions using machine learning similarity detection and temporal growth analysis methodologies.",
+      "source": "./",
+      "strict": false,
+      "skills": ["./"]
+    }
+  ],
+  "activation": {
+    "keywords": [
+      "trending claude skills",
+      "skill recommendations",
+      "monitor skill popularity",
+      "skill growth rate",
+      "replace outdated skill",
+      "new skills discovery",
+      "compare installed skills",
+      "security evaluation skills",
+      "find better alternatives",
+      "skill ecosystem insights",
+      "weekly skill report",
+      "check skill updates",
+      "similar functionality skills",
+      "skill quality assessment",
+      "alternative skill suggestions"
+    ],
+    "patterns": [
+      "(?i)(trending|popular|growing|hot)\\s+(claude\\s+)?skills?",
+      "(?i)(monitor|track|watch|check)\\s+(skill\\s+)?(popularity|growth|trends?|updates?)",
+      "(?i)(recommend|suggest|find|discover)\\s+(new|better|alternative)\\s+skills?",
+      "(?i)replace\\s+(outdated|old|obsolete)\\s+skills?",
+      "(?i)security\\s+(evaluation|check|audit|assessment)\\s+(for\\s+)?skills?",
+      "(?i)(weekly|daily|monthly)\\s+skill\\s+(report|summary|analysis)",
+      "(?i)(similar|comparable)\\s+(functionality|features?)\\s+skills?"
+    ]
+  },
+  "usage": {
+    "when_to_use": [
+      "User explicitly asks about trending Claude Skills or skill popularity",
+      "User mentions skill recommendations, discovery, or finding new skills",
+      "User wants to compare installed skills with alternatives",
+      "User asks about skill growth rates, star counts, or ecosystem insights",
+      "User mentions security evaluation or checking if skills are safe",
+      "User wants weekly/periodic skill monitoring reports",
+      "User describes needing to identify outdated skills",
+      "User asks about similar functionality skills"
+    ],
+    "when_not_to_use": [
+      "User asks about specific skill usage documentation",
+      "User wants to create new skills (use agent-skill-creator)",
+      "User asks about skill installation commands",
+      "User wants to edit existing skill code",
+      "User asks about Claude Code config unrelated to skills"
+    ]
+  },
+  "test_queries": [
+    "What are the trending claude skills this week?",
+    "Show me skill recommendations",
+    "Monitor skill popularity trends",
+    "Find better alternative skills",
+    "Check security evaluation for recommended skills",
+    "Generate weekly skill ecosystem report",
+    "Which skills are outdated and need replacement?",
+    "Audit my skills for security and quality",
+    "Compare my installed skills with trending ones",
+    "Discover new high-quality skills",
+    "Track skill growth rates over time",
+    "Identify functionally similar skills",
+    "Weekly skill monitoring report"
+  ]
+}

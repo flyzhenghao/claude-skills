@@ -1,0 +1,63 @@
+{
+  "version": "1.0.0",
+  "last_updated": "2026-02-14",
+  "markets": [
+    {
+      "id": "anthropic-official",
+      "name": "Anthropic Official Skills",
+      "url": "https://github.com/anthropics/skills",
+      "type": "github_repo",
+      "trust_level": "official",
+      "quality_score": 1.0,
+      "enabled": true
+    },
+    {
+      "id": "composio-awesome",
+      "name": "ComposioHQ Awesome Claude Skills",
+      "url": "https://github.com/ComposioHQ/awesome-claude-skills",
+      "type": "github_awesome_list",
+      "trust_level": "curated",
+      "quality_score": 0.8,
+      "enabled": true
+    },
+    {
+      "id": "travisvn-awesome",
+      "name": "TravisVN Awesome Claude Skills",
+      "url": "https://github.com/travisvn/awesome-claude-skills",
+      "type": "github_awesome_list",
+      "trust_level": "curated",
+      "quality_score": 0.7,
+      "enabled": true
+    },
+    {
+      "id": "skillsmp",
+      "name": "SkillsMP Marketplace",
+      "url": "https://skillsmp.com",
+      "type": "marketplace",
+      "trust_level": "community",
+      "quality_score": 0.6,
+      "enabled": true
+    },
+    {
+      "id": "skills-sh",
+      "name": "Skills.sh",
+      "url": "https://skills.sh",
+      "type": "marketplace",
+      "trust_level": "community",
+      "quality_score": 0.5,
+      "enabled": true
+    }
+  ],
+  "discovery_config": {
+    "search_queries": [
+      "claude code skills marketplace",
+      "claude code agent skills registry",
+      "awesome claude code skills",
+      "claude skills directory"
+    ],
+    "min_quality_score": 0.4,
+    "auto_add_threshold": 0.6,
+    "min_stars": 50,
+    "max_months_since_update": 6
+  }
+}
