@@ -4,6 +4,20 @@ A collection of Claude Code skills for skill ecosystem monitoring and analysis.
 
 ## Available Skills
 
+### [critic](skills/critic/)
+
+Quality control skill — code review, challenge/proof-by-contradiction, retrospective, system health, and codebase-wide sweep. The challenge mode uses a curated pattern library (15 known design blind spots) with anti-sycophancy safeguards and confidence anchoring.
+
+**Install:** Copy `skills/critic/` to `~/.claude/skills/critic/`
+
+**Trigger phrases:**
+- `/critic review` — code review
+- `/critic challenge` — proof-by-contradiction with pattern memory
+- `/critic retro` — retrospective with root cause analysis
+- `/critic sweep "<pattern>"` — find all instances of a known bug class
+
+---
+
 ### [deep-research-workflow](skills/deep-research-workflow/)
 
 Semi-automated deep research pipeline: Claude Code problem decomposition → Gemini Deep Research (200+ sources per query, concurrent) → Opus synthesis. Includes adaptive quality gates, Chrome profile automation, and auto-polling.
