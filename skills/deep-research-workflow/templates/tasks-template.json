@@ -1,0 +1,38 @@
+{
+  "project_name": "My Research Project",
+  "research_config": {
+    "total_markets": 3,
+    "execution_mode": "concurrent",
+    "gemini_model": "gemini-2.0-flash-exp",
+    "output_dir": "research-results"
+  },
+  "known_context": {
+    "description": "Information you already know. This is injected into each research prompt so Gemini skips redundant research on known topics.",
+    "existing_knowledge": [
+      "Replace this with what you already know about the topic"
+    ],
+    "constraints": [
+      "List any constraints (budget, timeline, geography, etc.)"
+    ],
+    "anti_patterns": [
+      "List approaches you've already tried or know won't work"
+    ]
+  },
+  "markets": [
+    {
+      "id": "market_1",
+      "name": "Example Topic 1",
+      "research_prompt": "Research [topic name] in depth, including:\n\n## Research Goal\nUnderstand the current state, key players, pricing models, and trends.\n\n## Information Requirements\n1. Market size and growth forecast (2024-2028)\n2. Top 5 key players and their market share\n3. Pricing models (subscription, usage-based, etc.)\n4. Target customer profiles and typical use cases\n5. Technical trends and innovation directions\n6. Entry barriers and risk factors\n\n## Output Requirements\n- Use Markdown format\n- Include data tables with comparisons\n- Cite all data sources\n- Provide actionable insights"
+    },
+    {
+      "id": "market_2",
+      "name": "Example Topic 2",
+      "research_prompt": "Research [topic name] in depth, including:\n\n## Research Goal\nUnderstand the current state, key players, pricing models, and trends.\n\n## Information Requirements\n1. Market size and growth forecast (2024-2028)\n2. Top 5 key players and their market share\n3. Pricing models (subscription, usage-based, etc.)\n4. Target customer profiles and typical use cases\n5. Technical trends and innovation directions\n6. Entry barriers and risk factors\n\n## Output Requirements\n- Use Markdown format\n- Include data tables with comparisons\n- Cite all data sources\n- Provide actionable insights"
+    },
+    {
+      "id": "market_3",
+      "name": "Example Topic 3",
+      "research_prompt": "Research [topic name] in depth, including:\n\n## Research Goal\nUnderstand the current state, key players, pricing models, and trends.\n\n## Information Requirements\n1. Market size and growth forecast (2024-2028)\n2. Top 5 key players and their market share\n3. Pricing models (subscription, usage-based, etc.)\n4. Target customer profiles and typical use cases\n5. Technical trends and innovation directions\n6. Entry barriers and risk factors\n\n## Output Requirements\n- Use Markdown format\n- Include data tables with comparisons\n- Cite all data sources\n- Provide actionable insights"
+    }
+  ]
+}

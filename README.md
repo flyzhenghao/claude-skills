@@ -4,6 +4,26 @@ A collection of Claude Code skills for skill ecosystem monitoring and analysis.
 
 ## Available Skills
 
+### [deep-research-workflow](skills/deep-research-workflow/)
+
+Semi-automated deep research pipeline: Claude Code problem decomposition → Gemini Deep Research (200+ sources per query, concurrent) → Opus synthesis. Includes adaptive quality gates, Chrome profile automation, and auto-polling.
+
+**Install:**
+```bash
+git clone https://github.com/flyzhenghao/claude-skills.git
+cd claude-skills/skills/deep-research-workflow
+bash setup.sh
+```
+
+**Prerequisites:** Google Chrome + Google Pro subscription (for Gemini Deep Research)
+
+**Trigger phrases:**
+- "deep research" / "深度研究"
+- "market research" / "市场调研"
+- "batch research" / "批量研究"
+
+---
+
 ### [skill-trending-monitor-cskill](skills/skill-trending-monitor-cskill/)
 
 Claude Code skill ecosystem monitoring with dual-source architecture. Fetches from claude-plugins.dev API (53,759+ skills, hourly updates) and skill-manager local DB (41,502 skills, offline fallback with Chinese descriptions). Calculates GitHub star growth rates, discovers new skills, finds similar alternatives using TF-IDF similarity, and generates weekly reports with security evaluations.
