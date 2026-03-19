@@ -24,8 +24,9 @@ import { chromium } from "playwright";
 import { writeFileSync, mkdirSync, rmSync } from "fs";
 import { dirname, resolve, join } from "path";
 
-const DEBUG_PROFILE_DIR = `${process.env.HOME}/.chrome-debug-profile`;
-const REPO_ROOT = process.cwd();
+const HOME = process.env.HOME ?? process.env.USERPROFILE;
+if (!HOME) { console.error("❌ HOME not set"); process.exit(1); }
+const DEBUG_PROFILE_DIR = `${HOME}/.chrome-debug-profile`;
 const DR_RESULTS_DIR = resolve(process.cwd(), "research-results");
 
 /**

@@ -29,7 +29,9 @@ import { ensureChromeNotRunning, syncProfileToDebug } from "./lib/gemini/profile
 import { submitOne, checkResearchStatus, extractReport, saveReport } from "./lib/gemini/browser.js";
 import { waitForAnyResearchComplete } from "./lib/gemini/monitor.js";
 
-const DEBUG_PROFILE_DIR = `${process.env.HOME}/.chrome-debug-profile`;
+const HOME = process.env.HOME ?? process.env.USERPROFILE;
+if (!HOME) { console.error("❌ HOME not set"); process.exit(1); }
+const DEBUG_PROFILE_DIR = `${HOME}/.chrome-debug-profile`;
 const REPO_ROOT = process.cwd();
 const DR_RESULTS_DIR = resolve(process.cwd(), "research-results");
 

@@ -7,3 +7,5 @@ __pycache__/
 .venv/
 .pytest_cache/
 .cache/
+node_modules/
+package-lock.json

@@ -298,9 +298,9 @@ export async function submitOne(
     console.error("  ❌ Research did not start — no activity detected on page");
     await page.screenshot({ path: `/tmp/gemini-dr-${index}-failed.png` });
     return { success: false, url: "", page };
-  } catch (e: any) {
+  } catch (e: unknown) {
     try { await page.screenshot({ path: `/tmp/gemini-dr-${index}-error.png` }); } catch {}
-    console.error(`  ❌ Error: ${e.message}`);
+    console.error(`  ❌ Error: ${e instanceof Error ? e.message : String(e)}`);
     return { success: false, url: "", page };
   }
 }

@@ -7,11 +7,23 @@
  * NOT the user-data-dir path, so copied profiles can decrypt cookies.
  */
 
-import { existsSync, rmSync, cpSync } from "fs";
+import { existsSync, rmSync, cpSync, mkdirSync } from "fs";
 import { join } from "path";
-import { execSync } from "child_process";
+import { execSync, spawnSync } from "child_process";
 
-const REAL_CHROME_DIR = `${process.env.HOME}/Library/Application Support/Google/Chrome`;
+const HOME = process.env.HOME ?? process.env.USERPROFILE;
+if (!HOME) {
+  console.error("❌ HOME environment variable is not set. Cannot determine Chrome profile path.");
+  process.exit(1);
+}
+
+if (process.platform !== "darwin") {
+  console.error("❌ This tool currently only supports macOS (requires Chrome Keychain integration, osascript, pgrep).");
+  console.error("   Platform detected:", process.platform);
+  process.exit(1);
+}
+
+const REAL_CHROME_DIR = join(HOME, "Library/Application Support/Google/Chrome");
 
 /** Ensure Chrome is not running (Playwright needs exclusive profile access). */
 export function ensureChromeNotRunning(): void {
@@ -30,7 +42,7 @@ export function ensureChromeNotRunning(): void {
         try {
           execSync("pgrep -f 'Google Chrome'", { encoding: "utf-8" });
           // Still running
-          execSync("sleep 1");
+          spawnSync("sleep", ["1"]);
           attempts++;
         } catch {
           // pgrep returns non-zero = Chrome is gone
@@ -40,7 +52,7 @@ export function ensureChromeNotRunning(): void {
       if (attempts >= 15) {
         console.log("  → Force killing Chrome...");
         try { execSync("pkill -f 'Google Chrome'"); } catch {}
-        execSync("sleep 2");
+        spawnSync("sleep", ["2"]);
       }
       console.log("  ✓ Chrome closed\n");
     }
@@ -64,7 +76,7 @@ export function syncProfileToDebug(debugProfileDir: string): void {
   if (isFirstTime) {
     // First time: copy essential data from real Chrome profile
     console.log("📁 Creating debug profile (first time — this may take a minute)...");
-    execSync(`mkdir -p "${debugProfileDir}"`);
+    mkdirSync(debugProfileDir, { recursive: true });
 
     // Copy Default profile directory
     const src = join(REAL_CHROME_DIR, "Default");
@@ -82,7 +94,7 @@ export function syncProfileToDebug(debugProfileDir: string): void {
       const fileSrc = join(REAL_CHROME_DIR, file);
       const fileDst = join(debugProfileDir, file);
       if (existsSync(fileSrc)) {
-        try { execSync(`cp "${fileSrc}" "${fileDst}"`); } catch {}
+        try { cpSync(fileSrc, fileDst); } catch {}
       }
     }
 
