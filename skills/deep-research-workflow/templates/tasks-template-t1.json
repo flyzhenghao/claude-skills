@@ -1,0 +1,56 @@
+{
+  "_template_meta": {
+    "tier": "T1 Light",
+    "use_case": "5-10 min 摸底类调研，3-5 个 WebSearch query，不跑 Gemini DR",
+    "token_budget": 15000,
+    "required_phases": ["1", "3", "4"]
+  },
+  "project_name": "示例：移动端 OCR APP 竞品摸底",
+  "research_config": {
+    "tier": "T1",
+    "execution_mode": "websearch_concurrent",
+    "max_queries": 5,
+    "output_dir": "research-results"
+  },
+  "known_context": {
+    "description": "T1 必填 known_context，避免重复研究",
+    "existing_knowledge": [
+      "我已经知道 [X]",
+      "首次接触此领域则填：首次研究该领域，无前置知识"
+    ],
+    "constraints": [
+      "结论必须 actionable",
+      "数据点必须带 URL + 日期",
+      "案例 ≥50% 来自 2024-2026",
+      "任何工具/产品必须含官网 URL，缺失标 [URL 待补]",
+      "禁止表格中出现 [推测] 标签"
+    ],
+    "anti_patterns_ref": "references/anti-patterns-dict.md (Tier 1+2+3 全部启用)"
+  },
+  "format_contract": {
+    "audience": "我自己（决策参考）",
+    "purpose": "快速摸底，决定下一步是否深入调研",
+    "required_sections": [
+      "## 核心结论（3 句话）",
+      "## 数据/案例（每条独立 URL + 日期）",
+      "## 建议下一步",
+      "## 来源清单"
+    ],
+    "citation_style": "[N] 编号引用 + 来源清单",
+    "length_target": "1500-2500 字中文"
+  },
+  "queries": [
+    {
+      "id": "Q1",
+      "query": "[问题 1，具体到关键词]"
+    },
+    {
+      "id": "Q2",
+      "query": "[问题 2]"
+    },
+    {
+      "id": "Q3",
+      "query": "[问题 3]"
+    }
+  ]
+}

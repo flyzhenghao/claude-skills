@@ -1,0 +1,66 @@
+{
+  "_template_meta": {
+    "tier": "T2 Standard (DEFAULT)",
+    "use_case": "15-30 min 标准调研，4-6 个 Gemini DR markets + 轻量 critic + 单 Pass 综合",
+    "token_budget": 80000,
+    "required_phases": ["1", "1.5", "2", "2.4", "2.5", "3", "4"]
+  },
+  "project_name": "示例：PDT 接入 Mem0 技术选型",
+  "research_config": {
+    "tier": "T2",
+    "total_markets": 4,
+    "execution_mode": "concurrent",
+    "output_dir": "deep-research-results",
+    "gemini_model": "gemini-2.5-pro-deep-research",
+    "midpoint_check_every_n": 3
+  },
+  "known_context": {
+    "description": "已完成 Phase 1 客户/项目背景。下列信息已 100% 验证，所有 prompt 必须锚定，禁止 Gemini 重复研究。",
+    "existing_knowledge": [
+      "[必填，至少 1 条；首次研究该领域则填：首次研究该领域，无前置知识]"
+    ],
+    "constraints": [
+      "结论必须 actionable",
+      "数据点必须带 URL + 日期",
+      "案例 ≥50% 来自 2024-2026",
+      "任何核心结论 ≥2 个独立域名 A/B 级来源，否则标 [行业未公开基准]",
+      "任何工具/产品/案例必须含官网 URL，缺失标 [URL 待补]",
+      "禁止表格中出现 [推测] 标签",
+      "禁止单一来源被引用 ≥3 次充数",
+      "同一域名贡献 ≥40% 引用数 → 必须返工"
+    ],
+    "anti_patterns": [
+      "见 references/anti-patterns-dict.md Tier 1-3 全部启用",
+      "禁止跨 Q 矛盾时给中立表述（必须明确表态）",
+      "禁止只列玩家不分梯队",
+      "禁止只说市场规模 X 亿不切到我能触达的子市场"
+    ]
+  },
+  "format_contract": {
+    "audience": "[谁来读？技术团队/决策者/我自己]",
+    "purpose": "[决策依据/学习/执行指南]",
+    "required_sections": [
+      "## 核心结论（3 句话，每句末尾 [N] 引用）",
+      "## 数据/案例（每条独立 URL + 日期）",
+      "## 关联前置条件（列出依赖哪些其他 Q 的结论）",
+      "## 可执行建议（每条含：动作/时间/验收）",
+      "## 反方观点（≥1 个 Devils Advocate）",
+      "## 来源清单（按 A/B/C 分级）"
+    ],
+    "citation_style": "[N] 编号引用 + 来源清单含 URL + 日期",
+    "length_target": "每份子报告 3000-5000 字中文，最终综合报告 8000-12000 字"
+  },
+  "markets": [
+    {
+      "id": "Q1",
+      "name": "Q1: [子题 1 名称]",
+      "research_prompt": "## 研究任务: [主题]\n\n### 已知信息（不要重复研究）\n- [知识点 1]\n- [知识点 2]\n\n### 研究目标\n[明确说明要回答的核心问题]\n\n### 具体研究问题（必须每个都回答）\n1. [问题 1]\n2. [问题 2]\n3. [问题 3]\n\n### 必须前置考虑的关联条件（如果是合理性/可行性判断）\n- 与 Q[X] 的结论是否一致？必须明确表态\n- 与 Q[Y] 的关联条件：[列举]\n\n### 输出要求\n- 必须有 [关键表格名]\n- 数据带 URL + 日期，2024-2026 占 ≥70%\n- 字数 3000-5000 中文",
+      "estimated_minutes": 7
+    },
+    {
+      "id": "Q2",
+      "name": "Q2: [子题 2 名称]",
+      "research_prompt": "..."
+    }
+  ]
+}

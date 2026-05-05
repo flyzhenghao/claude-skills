@@ -1,0 +1,102 @@
+{
+  "_template_meta": {
+    "tier": "T3 Deep",
+    "use_case": "45-90 min 深度调研，给客户/合作方看的不可逆决策报告",
+    "token_budget": 250000,
+    "required_phases": ["1", "1.5(opus)", "2", "2.4", "2.5(opus)", "2.6", "2.7", "3", "4", "4.0"]
+  },
+  "project_name": "示例：海外创作者教练新产品深度调研",
+  "research_config": {
+    "tier": "T3",
+    "total_markets": 8,
+    "execution_mode": "concurrent",
+    "output_dir": "deep-research-results",
+    "gemini_model": "gemini-2.5-pro-deep-research",
+    "midpoint_check_every_n": 3,
+    "cross_validation": true,
+    "format_contract": true,
+    "report_position": "[B 主导 X% + A 兜底 Y%，对客户报告必填]"
+  },
+  "known_context": {
+    "description": "已完成 Phase 1 客户/项目画像。下列信息已 100% 验证，所有 prompt 必须锚定。",
+    "client_profile": {
+      "name": "[客户名称]",
+      "real_identity": "[已验证身份]",
+      "platforms": "[平台数据]",
+      "current_business": "[现有业务]",
+      "constraints": "[预算/时间/能力约束]"
+    },
+    "new_product_idea": {
+      "name": "[产品名]",
+      "price_range": "[价格区间]",
+      "form": "[产品形态]",
+      "logic": "[商业逻辑]"
+    },
+    "existing_knowledge": [
+      "[已知事实 1]",
+      "[已知事实 2]"
+    ],
+    "constraints": [
+      "结论必须 actionable",
+      "数据点必须带 URL + 日期",
+      "案例 ≥50% 来自 2024-2026",
+      "任何核心结论 ≥2 个独立域名 A/B 级来源，否则标 [行业未公开基准]",
+      "任何工具/产品/案例必须含官网 URL，缺失标 [URL 待补]",
+      "禁止表格中出现 [推测] 标签",
+      "禁止单一来源被引用 ≥3 次充数",
+      "覆盖国内 + 海外双市场（如适用）",
+      "数字精确到小数位但无 [N] 引用 → 必须返工"
+    ],
+    "anti_patterns": [
+      "见 references/anti-patterns-dict.md Tier 1-4 全部启用",
+      "禁止跨 Q 矛盾时给中立表述（必须明确表态）",
+      "禁止只列玩家不分梯队",
+      "禁止只说市场规模 X 亿不切到客户能触达的子市场",
+      "禁止把 [Layer A] 和 [Layer B] 混为一谈",
+      "禁止给客户'好听但不可执行'建议（如：'要做好质量管控'）"
+    ]
+  },
+  "format_contract": {
+    "audience": "[客户名] + [项目主（关心示范效果）]",
+    "purpose": "决策依据 + 执行指南",
+    "report_position_logic": "[B 主导，共谋视角，'假如这是我的项目我会怎么做'] + [A 兜底，顾问视角，关键决策点回到'这是你要拍的板，以下是依据']",
+    "required_sections": [
+      "## 时效性摘要（开头必填）",
+      "## 执行摘要（一页）",
+      "## 现状诊断（含客户弱点点出，柔但准）",
+      "## 市场定位",
+      "## 定价策略",
+      "## 商业模式选型（决策树）",
+      "## 风险扫雷（≥5 个 Devils Advocate）",
+      "## 战略建议（B 主导 + A 兜底分明）",
+      "## 附录（数据来源 + Cross-Validation 结果 + 偏离声明）"
+    ],
+    "citation_style": "[N] 编号引用 + 来源清单含 URL + 日期 + A/B/C 分级",
+    "length_target": "每份子报告 3000-6000 字中文，最终综合报告 12000-18000 字"
+  },
+  "cross_validation_targets": [
+    {
+      "claim": "[Top 3 中的核心结论 1]",
+      "verification_query": "[WebSearch query]",
+      "validation_method": "WebSearch + Researcher agent"
+    },
+    {
+      "claim": "[Top 3 中的核心结论 2]",
+      "verification_query": "[WebSearch query]",
+      "validation_method": "WebSearch"
+    },
+    {
+      "claim": "[Top 3 中的核心结论 3]",
+      "verification_query": "[WebSearch query]",
+      "validation_method": "WebSearch + 官方文件 curl"
+    }
+  ],
+  "markets": [
+    {
+      "id": "Q1",
+      "name": "Q1: [子题 1 名称]",
+      "research_prompt": "## 研究任务: [主题]\n\n### 已知信息（不要重复研究）\n[完整客户画像锚定]\n\n### 研究目标\n[明确说明要回答的核心问题]\n\n### 具体研究问题（必须每个都回答）\n1. [问题 1，要求量化]\n2. [问题 2，要求案例 ≥3]\n3. ...\n\n### 必须前置考虑的关联条件\n- 与 Q[X] 的结论是否一致？必须明确表态，禁止中立\n- 与 Q[Y] 的关联条件：[列举]\n\n### 输出要求\n- 必须有 [关键表格名]\n- 数据带 URL + 日期，2024-2026 占 ≥70%\n- 任何核心结论 ≥2 个独立 A/B 级来源\n- 字数 4000-6000 中文",
+      "estimated_minutes": 8
+    }
+  ]
+}

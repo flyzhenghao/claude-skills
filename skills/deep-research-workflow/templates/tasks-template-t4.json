@@ -1,0 +1,108 @@
+{
+  "_template_meta": {
+    "tier": "T4 Strategic",
+    "use_case": "2-4h 战略级调研，多 stakeholder + HTML 演示 + 长期影响",
+    "token_budget": 1000000,
+    "required_phases": ["1", "1.5(opus)", "2(multi-engine)", "2.4", "2.5(opus)", "2.6", "2.7", "3(multi-pass)", "4", "4.0", "4.5(html)", "4.6(stakeholder review)"]
+  },
+  "project_name": "示例：PDT 长期商业化路径（给投资人看）",
+  "research_config": {
+    "tier": "T4",
+    "total_markets": 10,
+    "execution_mode": "multi_engine_concurrent",
+    "engines_per_market": ["gemini_dr", "researcher_agent", "websearch"],
+    "diff_detector": true,
+    "output_dir": "deep-research-results",
+    "gemini_model": "gemini-2.5-pro-deep-research",
+    "midpoint_check_every_n": 3,
+    "cross_validation": true,
+    "format_contract": true,
+    "multi_pass_synthesis": {
+      "enabled": true,
+      "subagent_count": 3,
+      "merge_strategy": "UNION"
+    },
+    "html_report": {
+      "enabled": true,
+      "template": "templates/mckinsey-report-template.html"
+    },
+    "stakeholder_review": {
+      "enabled": true,
+      "exec_summary_first": true,
+      "feedback_loop": true
+    }
+  },
+  "known_context": {
+    "description": "战略级研究，必须含完整 stakeholder map + 决策时间线 + 法律/合规边界",
+    "stakeholders": [
+      {"name": "[利益相关方 1]", "role": "[决策者/审查者/执行者]", "concern": "[他/她最关心什么]"},
+      {"name": "[利益相关方 2]", "role": "...", "concern": "..."}
+    ],
+    "decision_timeline": {
+      "milestone_1": "[里程碑 1 + 日期]",
+      "milestone_2": "[里程碑 2 + 日期]",
+      "final_decision_by": "[最终决策日期]"
+    },
+    "legal_compliance_scope": [
+      "[法律边界 1，如：NZ Companies Act / 中国跨境数据合规]",
+      "[法律边界 2]"
+    ],
+    "existing_knowledge": [],
+    "constraints": [
+      "结论必须 actionable",
+      "数据点必须带 URL + 日期",
+      "案例 ≥70% 来自 2024-2026（战略级要求更高时效性）",
+      "任何核心结论 ≥3 个独立域名 A/B 级来源（T4 加严）",
+      "任何工具/产品/案例必须含官网 URL",
+      "禁止表格中出现 [推测] 标签",
+      "禁止单一来源被引用 ≥3 次充数",
+      "T4 必须含至少 5 年趋势分析（不是 1-2 年）",
+      "T4 必须含至少 2 种情景推演（base/bull/bear）"
+    ],
+    "anti_patterns": [
+      "见 references/anti-patterns-dict.md Tier 1-4 全部启用",
+      "禁止单一情景推演（必须 ≥2 个 scenarios）",
+      "禁止只分析机会不分析威胁（必须 SWOT 完整）",
+      "禁止跳过 stakeholder map（每个核心结论必须标注哪个 stakeholder 受益/受损）"
+    ]
+  },
+  "format_contract": {
+    "audience": "[完整 stakeholder 列表]",
+    "purpose": "战略决策依据 + 长期路线图",
+    "required_sections": [
+      "## 时效性摘要（开头必填）",
+      "## 执行摘要（一页，stakeholder 优先）",
+      "## 战略全景图（含 SWOT + 5 forces）",
+      "## 核心场景（base/bull/bear 三档）",
+      "## 战略路径（分阶段，含时间线）",
+      "## 风险与对冲（5+ Devils Advocate）",
+      "## 关键决策点（决策树 + 触发条件）",
+      "## Stakeholder 受影响分析（每个利益方的得失）",
+      "## 附录（数据 + Cross-Validation + 偏离声明 + 引用清单）"
+    ],
+    "citation_style": "[N] 编号引用 + 来源清单含 URL + 日期 + A/B/C 分级",
+    "length_target": "综合报告 25000-40000 字中文 + 1 页 exec summary",
+    "html_export": "McKinsey 模板，含封面/TOC/exhibit 编号/takeaway box"
+  },
+  "cross_validation_targets": [
+    {
+      "claim": "[Top 5 战略级结论 1]",
+      "verification_methods": ["WebSearch", "Researcher agent", "官方文件 curl", "行业报告 PDF 抽样"]
+    }
+  ],
+  "multi_engine_config": {
+    "gemini_dr": "深度+长篇，原料库",
+    "researcher_agent": "中度+权威源优先",
+    "websearch": "短时效+实时验证",
+    "diff_detection": "三方差异点自动 flag 进入 Phase 2.5 critic"
+  },
+  "markets": [
+    {
+      "id": "M1",
+      "name": "M1: [战略子题 1]",
+      "research_prompt": "[完整 prompt，含 stakeholder 锚定 + 5 年趋势要求]",
+      "engines": ["gemini_dr", "researcher_agent", "websearch"],
+      "estimated_minutes": 12
+    }
+  ]
+}
