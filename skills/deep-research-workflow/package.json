@@ -1,12 +1,13 @@
 {
   "name": "deep-research-workflow",
-  "version": "6.0.0",
-  "description": "Semi-automated deep research pipeline: Claude Code decomposition → Gemini Deep Research → Opus synthesis",
+  "version": "7.5.0",
+  "description": "Semi-automated deep research pipeline with 5-Tier architecture (T0/T1/T2/T3/T4) + Quality Foundation Layer: Claude Code decomposition → Gemini Deep Research → Opus synthesis",
   "type": "module",
   "scripts": {
     "research": "npx tsx scripts/gemini-deep-research.ts",
     "check": "npx tsx scripts/gemini-dr-check.ts",
     "extract": "npx tsx scripts/gemini-dr-extract.ts",
+    "validate": "npx tsx scripts/validate-sources.ts",
     "setup": "npx playwright install chromium"
   },
   "dependencies": {
