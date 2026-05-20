@@ -24,12 +24,7 @@ import { basename, resolve, dirname } from "path";
 import { execSync } from "child_process";
 
 import { extractPromptBody, getPromptTitle } from "./lib/gemini/prompt.js";
-import {
-  connectOrLaunchChrome,
-  ensureChromeNotRunning,
-  syncProfileToDebug,
-  launchChromeWithDebugging,
-} from "./lib/gemini/profile.js";
+import { connectOrLaunchChrome } from "./lib/gemini/profile.js";
 import { submitOne, checkResearchStatus, extractReport, saveReport } from "./lib/gemini/browser.js";
 import { waitForAnyResearchComplete } from "./lib/gemini/monitor.js";
 import {
@@ -39,6 +34,7 @@ import {
   MAX_CONCURRENT_GEMINI_DR,
   type ActiveResearchEntry,
 } from "./lib/gemini/active-lock.js";
+import { notifyDone, notifyTimeout } from "./lib/gemini/notify.js";
 
 const DEBUG_PROFILE_DIR = `${process.env.HOME}/.chrome-debug-profile`;
 const CWD = process.cwd();
@@ -111,7 +107,7 @@ async function main() {
   console.log("🔬 Gemini Deep Research (Chrome mode) — Submitting", promptFiles.length, "prompt(s)\n");
 
   // Connect to existing debug Chrome or launch new one. NEVER kills Chrome.
-  let cdpEndpoint = connectOrLaunchChrome(DEBUG_PROFILE_DIR);
+  const cdpEndpoint = connectOrLaunchChrome(DEBUG_PROFILE_DIR);
 
   // Connect Playwright to Chrome via CDP
   let browser = await chromium.connectOverCDP(cdpEndpoint);
@@ -292,10 +288,14 @@ async function main() {
       browser.close();
     } else {
       // === Auto-poll + extract loop ===
-      console.log(`\n⏳ Waiting for ${activeResearches.length} research(es) to complete (polling every 30s, max 20min)...`);
-      const extractedPaths: string[] = [];
+      // 2026-05-03: MAX_WAIT now configurable via DR_MAX_WAIT_MIN env (default 30min,
+      // raised from 20 — Gemini complex prompts often run 25-30 min).
       const POLL_INTERVAL = 30000;
-      const MAX_WAIT = 1200000; // 20 min
+      const parsedWait = parseInt(process.env.DR_MAX_WAIT_MIN || "30", 10);
+      const MAX_WAIT_MIN = Number.isFinite(parsedWait) && parsedWait > 0 ? parsedWait : 30;
+      const MAX_WAIT = MAX_WAIT_MIN * 60 * 1000;
+      console.log(`\n⏳ Waiting for ${activeResearches.length} research(es) to complete (polling every 30s, max ${MAX_WAIT_MIN}min)...`);
+      const extractedPaths: string[] = [];
       const waitStart = Date.now();
 
       while (activeResearches.length > 0 && Date.now() - waitStart < MAX_WAIT) {
@@ -335,8 +335,10 @@ async function main() {
               }
               const saved = saveReport(report, url, origFile, CWD, DR_RESULTS_DIR);
               extractedPaths.push(saved);
+              notifyDone(file, url, saved, elapsed);
             } else {
               console.log(`  ⚠️  "${file}" extraction failed (${report?.length ?? 0} chars). Use gemini-dr-extract.ts manually.`);
+              notifyDone(file, url, "", elapsed);
             }
             activeResearches.splice(i, 1);
           } else if (status === "error") {
@@ -356,6 +358,8 @@ async function main() {
           console.log(`    - ${file}: ${url}`);
         }
         console.log("  Extract manually: npx tsx scripts/gemini-dr-extract.ts <url>");
+        console.log(`  Override timeout: DR_MAX_WAIT_MIN=45 npx tsx ... (current: ${MAX_WAIT_MIN}min)`);
+        notifyTimeout(activeResearches.map(({ file, url }) => ({ file, url })), MAX_WAIT_MIN);
       }
 
       // Final summary

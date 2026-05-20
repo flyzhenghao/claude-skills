@@ -1,0 +1,13 @@
+{
+  "name": "gemini-deep-research-scripts",
+  "private": true,
+  "type": "module",
+  "dependencies": {
+    "@google/genai": "^1.46.0",
+    "playwright": "^1.58.2"
+  },
+  "devDependencies": {
+    "@types/node": "^25.5.0",
+    "typescript": "^6.0.2"
+  }
+}

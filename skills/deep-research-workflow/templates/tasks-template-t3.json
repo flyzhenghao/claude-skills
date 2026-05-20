@@ -57,7 +57,7 @@
     ]
   },
   "format_contract": {
-    "audience": "[客户名] + [项目主（关心示范效果）]",
+    "audience": "[客户名] + [Hao（项目示范效果）]",
     "purpose": "决策依据 + 执行指南",
     "report_position_logic": "[B 主导，共谋视角，'假如这是我的项目我会怎么做'] + [A 兜底，顾问视角，关键决策点回到'这是你要拍的板，以下是依据']",
     "required_sections": [

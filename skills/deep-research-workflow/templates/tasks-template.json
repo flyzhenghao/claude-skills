@@ -1,38 +1,31 @@
 {
-  "project_name": "My Research Project",
+  "project_name": "市场调研项目",
   "research_config": {
     "total_markets": 3,
     "execution_mode": "concurrent",
-    "gemini_model": "gemini-2.0-flash-exp",
-    "output_dir": "research-results"
+    "output_dir": "deep-research-results"
   },
   "known_context": {
-    "description": "Information you already know. This is injected into each research prompt so Gemini skips redundant research on known topics.",
-    "existing_knowledge": [
-      "Replace this with what you already know about the topic"
-    ],
-    "constraints": [
-      "List any constraints (budget, timeline, geography, etc.)"
-    ],
-    "anti_patterns": [
-      "List approaches you've already tried or know won't work"
-    ]
+    "description": "用户已知的信息、已有结论、相关背景。填写后会注入每个 research_prompt，避免 Gemini 重复研究已知内容",
+    "existing_knowledge": [],
+    "constraints": [],
+    "anti_patterns": []
   },
   "markets": [
     {
       "id": "market_1",
-      "name": "Example Topic 1",
-      "research_prompt": "Research [topic name] in depth, including:\n\n## Research Goal\nUnderstand the current state, key players, pricing models, and trends.\n\n## Information Requirements\n1. Market size and growth forecast (2024-2028)\n2. Top 5 key players and their market share\n3. Pricing models (subscription, usage-based, etc.)\n4. Target customer profiles and typical use cases\n5. Technical trends and innovation directions\n6. Entry barriers and risk factors\n\n## Output Requirements\n- Use Markdown format\n- Include data tables with comparisons\n- Cite all data sources\n- Provide actionable insights"
+      "name": "示例市场 1",
+      "research_prompt": "请深入研究 [市场名称] 市场，包括：\n\n## 研究目标\n了解该市场的现状、主要玩家、定价模式和发展趋势。\n\n## 具体需求\n1. 市场规模和增长预测（2024-2028）\n2. Top 5 主要玩家及其市场份额\n3. 主流定价模型（订阅制、按量计费等）\n4. 目标客户画像和典型用例\n5. 技术趋势和创新方向\n6. 进入壁垒和风险因素\n\n## 输出要求\n- 使用 Markdown 格式\n- 包含数据表格和对比\n- 标注所有数据来源\n- 给出可操作的洞察"
     },
     {
       "id": "market_2",
-      "name": "Example Topic 2",
-      "research_prompt": "Research [topic name] in depth, including:\n\n## Research Goal\nUnderstand the current state, key players, pricing models, and trends.\n\n## Information Requirements\n1. Market size and growth forecast (2024-2028)\n2. Top 5 key players and their market share\n3. Pricing models (subscription, usage-based, etc.)\n4. Target customer profiles and typical use cases\n5. Technical trends and innovation directions\n6. Entry barriers and risk factors\n\n## Output Requirements\n- Use Markdown format\n- Include data tables with comparisons\n- Cite all data sources\n- Provide actionable insights"
+      "name": "示例市场 2",
+      "research_prompt": "请深入研究 [市场名称] 市场，包括：\n\n## 研究目标\n了解该市场的现状、主要玩家、定价模式和发展趋势。\n\n## 具体需求\n1. 市场规模和增长预测（2024-2028）\n2. Top 5 主要玩家及其市场份额\n3. 主流定价模型（订阅制、按量计费等）\n4. 目标客户画像和典型用例\n5. 技术趋势和创新方向\n6. 进入壁垒和风险因素\n\n## 输出要求\n- 使用 Markdown 格式\n- 包含数据表格和对比\n- 标注所有数据来源\n- 给出可操作的洞察"
     },
     {
       "id": "market_3",
-      "name": "Example Topic 3",
-      "research_prompt": "Research [topic name] in depth, including:\n\n## Research Goal\nUnderstand the current state, key players, pricing models, and trends.\n\n## Information Requirements\n1. Market size and growth forecast (2024-2028)\n2. Top 5 key players and their market share\n3. Pricing models (subscription, usage-based, etc.)\n4. Target customer profiles and typical use cases\n5. Technical trends and innovation directions\n6. Entry barriers and risk factors\n\n## Output Requirements\n- Use Markdown format\n- Include data tables with comparisons\n- Cite all data sources\n- Provide actionable insights"
+      "name": "示例市场 3",
+      "research_prompt": "请深入研究 [市场名称] 市场，包括：\n\n## 研究目标\n了解该市场的现状、主要玩家、定价模式和发展趋势。\n\n## 具体需求\n1. 市场规模和增长预测（2024-2028）\n2. Top 5 主要玩家及其市场份额\n3. 主流定价模型（订阅制、按量计费等）\n4. 目标客户画像和典型用例\n5. 技术趋势和创新方向\n6. 进入壁垒和风险因素\n\n## 输出要求\n- 使用 Markdown 格式\n- 包含数据表格和对比\n- 标注所有数据来源\n- 给出可操作的洞察"
     }
   ]
 }

@@ -10,9 +10,9 @@ import { writeFileSync, rmSync, mkdirSync, existsSync } from "fs";
 import { basename, resolve, dirname } from "path";
 import { execSync } from "child_process";
 
-// 2026-04-30: Support multi-account Chrome profiles via GEMINI_ACCOUNT_INDEX env var.
-// Chrome routes to /u/<N>/app for the Nth account. Default account is u/0; secondary accounts may be u/1, u/2, etc.
-// Set GEMINI_ACCOUNT_INDEX=3 to force the right account.
+// Support multi-account Chrome profiles via GEMINI_ACCOUNT_INDEX env var.
+// Chrome routes to /u/<N>/app for the Nth account (e.g. set =3 to use the 4th).
+// Set GEMINI_ACCOUNT_INDEX=N to force a specific account.
 const GEMINI_ACCOUNT_INDEX = process.env.GEMINI_ACCOUNT_INDEX;
 const GEMINI_URL = GEMINI_ACCOUNT_INDEX
   ? `https://gemini.google.com/u/${GEMINI_ACCOUNT_INDEX}/app`

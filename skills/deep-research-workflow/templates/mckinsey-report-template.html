@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>战略研究综合报告</title>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;600;700&display=swap');
+
+  :root {
+    --navy: #003366;
+    --navy-light: #0a4a8a;
+    --accent: #0073cf;
+    --red: #c41e3a;
+    --gold: #b8860b;
+    --bg: #ffffff;
+    --bg-alt: #f5f6f8;
+    --bg-takeaway: #e8f0fe;
+    --text: #1a1a2e;
+    --text-secondary: #4a5568;
+    --text-light: #718096;
+    --border: #d1d5db;
+    --border-light: #e5e7eb;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Inter', 'Noto Sans SC', -apple-system, sans-serif;
+    color: var(--text);
+    background: var(--bg);
+    line-height: 1.75;
+    font-size: 14.5px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* === COVER PAGE === */
+  .cover {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy-light) 100%);
+    color: white;
+    text-align: center;
+    padding: 60px 40px;
+    position: relative;
+  }
+  .cover::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 10%;
+    right: 10%;
+    height: 4px;
+    background: var(--gold);
+  }
+  .cover .label {
+    font-size: 12px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.6);
+    margin-bottom: 24px;
+  }
+  .cover h1 {
+    font-size: 38px;
+    font-weight: 700;
+    letter-spacing: -1px;
+    line-height: 1.3;
+    max-width: 700px;
+    margin-bottom: 20px;
+  }
+  .cover .subtitle {
+    font-size: 16px;
+    color: rgba(255,255,255,0.75);
+    font-weight: 300;
+    max-width: 500px;
+    line-height: 1.6;
+  }
+  .cover .meta-box {
+    margin-top: 48px;
+    display: flex;
+    gap: 40px;
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+  }
+  .cover .meta-box span { display: flex; flex-direction: column; gap: 4px; }
+  .cover .meta-box .val { color: rgba(255,255,255,0.85); font-weight: 500; }
+
+  /* === LAYOUT === */
+  .container { max-width: 860px; margin: 0 auto; padding: 60px 48px; }
+
+  /* === EXECUTIVE SUMMARY === */
+  .exec-summary {
+    background: var(--bg-alt);
+    border-left: 5px solid var(--navy);
+    padding: 36px 40px;
+    margin: 0 -48px 48px;
+    page-break-after: always;
+  }
+  .exec-summary h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--navy);
+    margin-bottom: 20px;
+    border: none;
+    padding: 0;
+  }
+  .exec-summary .point {
+    display: flex;
+    gap: 12px;
+    margin: 14px 0;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+  .exec-summary .point .num {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    background: var(--navy);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 600;
+    margin-top: 2px;
+  }
+
+  /* === TABLE OF CONTENTS === */
+  .toc {
+    margin-bottom: 48px;
+    page-break-after: always;
+  }
+  .toc h2 {
+    font-size: 13px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    color: var(--navy);
+    margin-bottom: 16px;
+    border: none;
+    padding: 0;
+  }
+  .toc-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 10px 0;
+    border-bottom: 1px dotted var(--border-light);
+    font-size: 14px;
+  }
+  .toc-item .section-num { color: var(--navy); font-weight: 600; margin-right: 12px; }
+  .toc-item .dots { flex: 1; border-bottom: 1px dotted var(--border); margin: 0 12px; }
+
+  /* === HEADINGS === */
+  h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--navy);
+    margin: 56px 0 20px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--navy);
+    letter-spacing: -0.3px;
+  }
+  h3 {
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--navy-light);
+    margin: 36px 0 12px;
+  }
+  h4 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    margin: 20px 0 8px;
+  }
+
+  /* === KEY TAKEAWAY BOX === */
+  .takeaway {
+    background: var(--bg-takeaway);
+    border-left: 4px solid var(--accent);
+    padding: 16px 20px;
+    margin: 20px 0;
+    border-radius: 0 6px 6px 0;
+    font-size: 14px;
+  }
+  .takeaway .label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  /* === DEVIATION BOX === */
+  .deviation {
+    background: #fef3f2;
+    border-left: 4px solid var(--red);
+    padding: 14px 18px;
+    margin: 16px 0;
+    border-radius: 0 6px 6px 0;
+    font-size: 13.5px;
+    color: #5a1a1a;
+  }
+  .deviation .label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--red);
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+
+  /* === EXHIBIT === */
+  .exhibit {
+    margin: 24px 0;
+  }
+  .exhibit-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--text-light);
+    font-weight: 500;
+    margin-bottom: 8px;
+  }
+  .exhibit-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--navy);
+    margin-bottom: 12px;
+  }
+
+  /* === TABLES === */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+  thead { background: var(--navy); color: white; }
+  th {
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 500;
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  td {
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border-light);
+    vertical-align: top;
+  }
+  tbody tr:nth-child(even) { background: var(--bg-alt); }
+  .highlight-row { background: #e8f0fe !important; font-weight: 500; }
+
+  /* === TEXT === */
+  p { margin: 12px 0; }
+  strong { font-weight: 600; }
+  ul, ol { margin: 10px 0; padding-left: 24px; }
+  li { margin: 5px 0; }
+  li::marker { color: var(--navy); }
+
+  /* === SIDEBAR NOTE === */
+  .sidebar-note {
+    float: right;
+    width: 200px;
+    margin: 0 -220px 20px 20px;
+    padding: 12px 14px;
+    background: var(--bg-alt);
+    border-top: 3px solid var(--gold);
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+  @media (max-width: 1200px) {
+    .sidebar-note { float: none; width: 100%; margin: 16px 0; }
+  }
+
+  /* === DIVIDERS === */
+  hr { border: none; border-top: 1px solid var(--border-light); margin: 40px 0; }
+  .section-break { border-top: 3px solid var(--navy); margin: 56px 0 40px; }
+
+  /* === FOOTER === */
+  .footer {
+    margin-top: 60px;
+    padding: 24px 0;
+    border-top: 2px solid var(--navy);
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--text-light);
+  }
+
+  /* === PRINT === */
+  @media print {
+    .cover { min-height: auto; padding: 60px 40px; page-break-after: always; }
+    .container { padding: 30px; max-width: 100%; }
+    .sidebar-note { float: none; width: 100%; margin: 12px 0; }
+    h2 { page-break-after: avoid; }
+    table, .exhibit, .takeaway, .deviation { page-break-inside: avoid; }
+    .exec-summary { margin: 0 0 30px; page-break-after: always; }
+  }
+</style>
+</head>
+
+<!-- ===== COVER ===== -->
+<div class="cover">
+  <div class="label">{{COVER_LABEL}}</div>
+  <h1>{{TITLE}}</h1>
+  <div class="subtitle">{{SUBTITLE}}</div>
+  <div class="meta-box">
+    <span><div>Date</div><div class="val">{{DATE}}</div></span>
+    <span><div>Analyst</div><div class="val">{{ANALYST}}</div></span>
+    <span><div>Mode</div><div class="val">{{MODE}}</div></span>
+    <span><div>Tracks</div><div class="val">{{TRACKS}}</div></span>
+  </div>
+</div>
+
+<!-- ===== BODY ===== -->
+<div class="container">
+
+<!-- EXECUTIVE SUMMARY — use .exec-summary with .point/.num divs -->
+<!-- TABLE OF CONTENTS — use .toc with .toc-item/.section-num -->
+<!-- SECTIONS — use h2 "01 — Title", .takeaway, .deviation, .exhibit, tables -->
+<!-- FOOTER — use .footer -->
+
+{{BODY_CONTENT}}
+
+</div>
+</body>
+</html>
